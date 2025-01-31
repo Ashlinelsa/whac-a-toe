@@ -39,6 +39,8 @@
 <body>
     <h1>Whac-A-Mole</h1>
     <p>Score: <span id="score">0</span></p>
+    <p>High Score: <span id="highscore">0</span></p>
+    <p>Time Left: <span id="timer">30</span> seconds</p>
     <div class="game-container">
         <div class="hole" onclick="hitMole(0)"><div class="mole"></div></div>
         <div class="hole" onclick="hitMole(1)"><div class="mole"></div></div>
@@ -49,7 +51,11 @@
     </div>
     <script>
         let score = 0;
+        let highScore = 0;
         let activeMole = -1;
+        let timeLeft = 30;
+        let gameInterval;
+        let timerInterval;
 
         function showMole() {
             if (activeMole !== -1) {
@@ -68,7 +74,28 @@
             }
         }
 
-        setInterval(showMole, 1000);
+        function startGame() {
+            score = 0;
+            timeLeft = 30;
+            document.getElementById('score').textContent = score;
+            document.getElementById('timer').textContent = timeLeft;
+            gameInterval = setInterval(showMole, 1000);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(gameInterval);
+                    clearInterval(timerInterval);
+                    if (score > highScore) {
+                        highScore = score;
+                        document.getElementById('highscore').textContent = highScore;
+                    }
+                    alert('Game Over! Your score: ' + score);
+                }
+            }, 1000);
+        }
+
+        startGame();
     </script>
 </body>
 </html>
