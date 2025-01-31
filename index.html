@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whac-A-Mole</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .hole {
+            width: 100px;
+            height: 100px;
+            background-color: brown;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+        }
+        .mole {
+            width: 80px;
+            height: 80px;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Whac-A-Mole</h1>
+    <p>Score: <span id="score">0</span></p>
+    <div class="game-container">
+        <div class="hole" onclick="hitMole(0)"><div class="mole"></div></div>
+        <div class="hole" onclick="hitMole(1)"><div class="mole"></div></div>
+        <div class="hole" onclick="hitMole(2)"><div class="mole"></div></div>
+        <div class="hole" onclick="hitMole(3)"><div class="mole"></div></div>
+        <div class="hole" onclick="hitMole(4)"><div class="mole"></div></div>
+        <div class="hole" onclick="hitMole(5)"><div class="mole"></div></div>
+    </div>
+    <script>
+        let score = 0;
+        let activeMole = -1;
+
+        function showMole() {
+            if (activeMole !== -1) {
+                document.querySelectorAll('.mole')[activeMole].style.display = 'none';
+            }
+            activeMole = Math.floor(Math.random() * 6);
+            document.querySelectorAll('.mole')[activeMole].style.display = 'block';
+        }
+
+        function hitMole(index) {
+            if (index === activeMole) {
+                score++;
+                document.getElementById('score').textContent = score;
+                document.querySelectorAll('.mole')[activeMole].style.display = 'none';
+                activeMole = -1;
+            }
+        }
+
+        setInterval(showMole, 1000);
+    </script>
+</body>
+</html>
